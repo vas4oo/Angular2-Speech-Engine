@@ -23,6 +23,22 @@
                                 [disabled]="!showSearchButton">
                             Enable Speech Search
                         </button>
+                        <button class="btn btn-info btn-fill btn-wd" name="btnDisableSpeechSearchMovie" id="btnDisableSearchMovie" (click)="onDisableClick()"
+                                [disabled]="!showDisableButton">
+                            Disable Speech Search
+                        </button>
+                        <button class="btn btn-info btn-fill btn-wd" name="update" id="update" (click)="onUpdateClick()">
+                            Update
+                        </button>
+                        <button class="btn btn-info btn-fill btn-wd" name="this" id="add" (click)="onAddClick()">
+                            Add
+                        </button>
+                        <div *ngIf="showUpdate == true">
+                                <h1>Натиснахте Update</h1>
+                        </div>
+                        <div *ngIf="showAdd == true">
+                                <h1>Натиснахте Add</h1>
+                        </div>
                     </div>
                     <br />
                 </div>

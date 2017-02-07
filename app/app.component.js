@@ -13,11 +13,14 @@ var speech_recognition_service_1 = require("./speech-recognition.service");
 var AppComponent = (function () {
     function AppComponent(speechRecognitionService) {
         this.speechRecognitionService = speechRecognitionService;
+        this.tagName = document.getElementsByTagName("button");
         this.showSearchButton = true;
         this.speechData = "";
     }
     AppComponent.prototype.ngOnInit = function () {
         console.log("hello");
+        console.log(this.tagName);
+        this.showDisableButton = false;
     };
     AppComponent.prototype.ngOnDestroy = function () {
         this.speechRecognitionService.DestroySpeechObject();
@@ -25,11 +28,18 @@ var AppComponent = (function () {
     AppComponent.prototype.activateSpeechSearchMovie = function () {
         var _this = this;
         this.showSearchButton = false;
+        this.showDisableButton = true;
         this.speechRecognitionService.record()
             .subscribe(
         //listener
         function (value) {
             _this.speechData = value;
+            if (value == document.getElementById("update").name) {
+                _this.onUpdateClick();
+            }
+            if (value == document.getElementById("add").name) {
+                _this.onAddClick();
+            }
             console.log(value);
         }, 
         //errror
@@ -44,15 +54,31 @@ var AppComponent = (function () {
         function () {
             _this.showSearchButton = true;
             console.log("--complete--");
-            _this.activateSpeechSearchMovie();
+            if (_this.speechData == "update") {
+                _this.onUpdateClick();
+            }
+            //this.activateSpeechSearchMovie();
         });
+    };
+    AppComponent.prototype.onDisableClick = function () {
+        this.speechRecognitionService.speechRecognition.stop();
+        this.showDisableButton = false;
+        this.showSearchButton = true;
+    };
+    AppComponent.prototype.onUpdateClick = function () {
+        this.showUpdate = true;
+        this.showAdd = false;
+    };
+    AppComponent.prototype.onAddClick = function () {
+        this.showUpdate = false;
+        this.showAdd = true;
     };
     return AppComponent;
 }());
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "<div class=\"container-fluid\">\n    <div class=\"row\">\n        <div class=\"col-lg-12 col-md-12\">\n            <div class=\"card\">\n                <div class=\"header\">\n                    <h4 class=\"title\">&nbsp;&nbsp; Web Speech API in Angular2</h4>\n                </div>\n                <div class=\"content\">\n                    <div class=\"row\">\n                        <div class=\"col-md-2\"></div>\n                        <div class=\"col-md-8\">\n                            <div class=\"form-group\">\n                                <label></label>\n                                <input type=\"text\" class=\"form-control border-input\" name=\"txtSpeechSearchMovieName\" id=\"txtSpeechSearchMovieName\" value=\"\"\n                                       placeholder=\"Click below button and then say something!!!\" [(ngModel)]=\"speechData\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-2\"></div>\n                    </div>\n                    <br />\n                    <div class=\"text-center\">\n                        <button class=\"btn btn-info btn-fill btn-wd\" name=\"btnActivateSpeechSearchMovie\" id=\"btnActivateSpeechSearchMovie\" (click)=\"activateSpeechSearchMovie()\"\n                                [disabled]=\"!showSearchButton\">\n                            Enable Speech Search\n                        </button>\n                    </div>\n                    <br />\n                </div>\n            </div>\n        </div>\n    </div>\n</div>"
+        templateUrl: 'app/app.component.html'
     }),
     __metadata("design:paramtypes", [speech_recognition_service_1.SpeechRecognitionService])
 ], AppComponent);

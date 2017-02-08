@@ -15,6 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
     showDelete:boolean;
     tagName = document.getElementsByTagName("button");
     pulsing = document.getElementsByClassName("pulse-button");
+    myStyle: string;
 
     constructor(private speechRecognitionService: SpeechRecognitionService) {
         this.showSearchButton = true;
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log("hello");
         console.log(this.tagName);
         this.showDisableButton = false;
+        this.myStyle = "none";
     }
 
     ngOnDestroy() {
@@ -35,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
     activateSpeechSearchMovie(): void {
         this.showSearchButton = false;
         this.showDisableButton = true;
-        this.pulsing.style.display ="block";
+        this.myStyle = "block";
 
         this.speechRecognitionService.record()
             .subscribe(
@@ -70,6 +72,9 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.onDisableClick();
                 console.log("--complete--");
                 //this.activateSpeechSearchMovie();
+                if(this.speechData){
+                this.onDisableClick();
+                }
             });
     }
     onDisableClick(){

@@ -22,6 +22,7 @@ var AppComponent = (function () {
         console.log("hello");
         console.log(this.tagName);
         this.showDisableButton = false;
+        this.myStyle = "none";
     };
     AppComponent.prototype.ngOnDestroy = function () {
         this.speechRecognitionService.DestroySpeechObject();
@@ -30,7 +31,7 @@ var AppComponent = (function () {
         var _this = this;
         this.showSearchButton = false;
         this.showDisableButton = true;
-        this.pulsing.style.display = "block";
+        this.myStyle = "block";
         this.speechRecognitionService.record()
             .subscribe(
         //listener
@@ -64,6 +65,9 @@ var AppComponent = (function () {
             _this.onDisableClick();
             console.log("--complete--");
             //this.activateSpeechSearchMovie();
+            if (_this.speechData) {
+                _this.onDisableClick();
+            }
         });
     };
     AppComponent.prototype.onDisableClick = function () {

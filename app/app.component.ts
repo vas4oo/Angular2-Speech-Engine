@@ -72,7 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.onDisableClick();
                 console.log("--complete--");
                 //this.activateSpeechSearchMovie();
-                if(this.speechData){
+                if(!this.speechData){
                 this.onDisableClick();
                 }
             });

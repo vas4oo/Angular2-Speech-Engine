@@ -65,7 +65,7 @@ var AppComponent = (function () {
             _this.onDisableClick();
             console.log("--complete--");
             //this.activateSpeechSearchMovie();
-            if (_this.speechData) {
+            if (!_this.speechData) {
                 _this.onDisableClick();
             }
         });

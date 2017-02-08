@@ -14,6 +14,7 @@ var AppComponent = (function () {
     function AppComponent(speechRecognitionService) {
         this.speechRecognitionService = speechRecognitionService;
         this.tagName = document.getElementsByTagName("button");
+        this.pulsing = document.getElementsByClassName("pulse-button");
         this.showSearchButton = true;
         this.speechData = "";
     }
@@ -29,6 +30,7 @@ var AppComponent = (function () {
         var _this = this;
         this.showSearchButton = false;
         this.showDisableButton = true;
+        this.pulsing.style.display = "block";
         this.speechRecognitionService.record()
             .subscribe(
         //listener
@@ -40,7 +42,13 @@ var AppComponent = (function () {
             if (value == document.getElementById("add").name) {
                 _this.onAddClick();
             }
+            if (value == document.getElementById("delete").name) {
+                _this.onDeleteClick();
+            }
             console.log(value);
+            if (value) {
+                _this.onDisableClick();
+            }
         }, 
         //errror
         function (err) {
@@ -48,15 +56,13 @@ var AppComponent = (function () {
             if (err.error == "no-speech") {
                 console.log("--restatring service--");
                 _this.activateSpeechSearchMovie();
+                _this.onDisableClick();
             }
         }, 
         //completion
         function () {
-            _this.showSearchButton = true;
+            _this.onDisableClick();
             console.log("--complete--");
-            if (_this.speechData == "update") {
-                _this.onUpdateClick();
-            }
             //this.activateSpeechSearchMovie();
         });
     };
@@ -68,10 +74,17 @@ var AppComponent = (function () {
     AppComponent.prototype.onUpdateClick = function () {
         this.showUpdate = true;
         this.showAdd = false;
+        this.showDelete = false;
     };
     AppComponent.prototype.onAddClick = function () {
         this.showUpdate = false;
         this.showAdd = true;
+        this.showDelete = false;
+    };
+    AppComponent.prototype.onDeleteClick = function () {
+        this.showUpdate = false;
+        this.showAdd = false;
+        this.showDelete = true;
     };
     return AppComponent;
 }());

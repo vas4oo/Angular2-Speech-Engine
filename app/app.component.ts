@@ -12,7 +12,9 @@ export class AppComponent implements OnInit, OnDestroy {
     showDisableButton: boolean;
     showUpdate: boolean;
     showAdd:boolean;
+    showDelete:boolean;
     tagName = document.getElementsByTagName("button");
+    pulsing = document.getElementsByClassName("pulse-button");
 
     constructor(private speechRecognitionService: SpeechRecognitionService) {
         this.showSearchButton = true;
@@ -33,6 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
     activateSpeechSearchMovie(): void {
         this.showSearchButton = false;
         this.showDisableButton = true;
+        this.pulsing.style.display ="block";
 
         this.speechRecognitionService.record()
             .subscribe(
@@ -45,7 +48,13 @@ export class AppComponent implements OnInit, OnDestroy {
                 if(value == document.getElementById("add").name){
                     this.onAddClick();
                 }
+                if(value == document.getElementById("delete").name){
+                    this.onDeleteClick();
+                }
                 console.log(value);
+                if(value){
+                this.onDisableClick();
+                }
             },
             //errror
             (err) => {
@@ -53,16 +62,13 @@ export class AppComponent implements OnInit, OnDestroy {
                 if (err.error == "no-speech") {
                     console.log("--restatring service--");
                     this.activateSpeechSearchMovie();
-                    //this.onDisableClick();
+                    this.onDisableClick();
                 }
             },
             //completion
             () => {
-                this.showSearchButton = true;
+                this.onDisableClick();
                 console.log("--complete--");
-                if(this.speechData == "update"){
-                    this.onUpdateClick();
-                }
                 //this.activateSpeechSearchMovie();
             });
     }
@@ -75,9 +81,16 @@ export class AppComponent implements OnInit, OnDestroy {
     onUpdateClick() {
         this.showUpdate = true;
         this.showAdd = false;
+        this.showDelete = false;
     }
     onAddClick(){
         this.showUpdate = false;
         this.showAdd = true;
+        this.showDelete = false;
+    }
+    onDeleteClick(){
+        this.showUpdate = false;
+        this.showAdd = false;
+        this.showDelete = true;
     }
 }

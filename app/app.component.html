@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-lg-12 col-md-12">
             <div class="card">
-                <div class="header">
-                    <h4 class="title">&nbsp;&nbsp; Web Speech API in Angular2</h4>
+                <div class="jumbotron text-center">
+                    <h1 class="title">Web Speech API in Angular2</h1>
                 </div>
                 <div class="content">
                     <div class="row">
@@ -19,6 +19,9 @@
                     </div>
                     <br />
                     <div class="text-center">
+                        <div class="pulsatingCircle" *ngIf="showDisableButton">
+    	                     <button class="pulse-button" (click)="onDisableClick()" id="pulsing"></button>
+                        </div>
                         <button class="btn btn-info btn-fill btn-wd" name="btnActivateSpeechSearchMovie" id="btnActivateSpeechSearchMovie" (click)="activateSpeechSearchMovie()"
                                 [disabled]="!showSearchButton">
                             Enable Speech Search
@@ -33,11 +36,20 @@
                         <button class="btn btn-info btn-fill btn-wd" name="this" id="add" (click)="onAddClick()">
                             Add
                         </button>
-                        <div *ngIf="showUpdate == true">
-                                <h1>Натиснахте Update</h1>
-                        </div>
-                        <div *ngIf="showAdd == true">
-                                <h1>Натиснахте Add</h1>
+                        <button class="btn btn-info btn-fill btn-wd" name="delete" id="delete" (click)="onDeleteClick()">
+                            Delete
+                        </button>
+                       
+                        <div class="container">
+                            <div *ngIf="showUpdate == true">
+                                    <h1 class="text-primary">Натиснахте Update</h1>
+                            </div>
+                            <div *ngIf="showAdd == true">
+                                    <h1 class="text-success">Натиснахте Add</h1>
+                            </div>
+                            <div *ngIf="showDelete == true">
+                                    <h1 class="text-danger">Натиснахте Delete</h1>
+                            </div>
                         </div>
                     </div>
                     <br />
